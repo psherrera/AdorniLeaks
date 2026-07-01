@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import Header from "@/components/Header";
 import NewsCard, { NewsCardSkeleton } from "@/components/NewsCard";
 import CategoryFilter from "@/components/CategoryFilter";
@@ -15,7 +15,7 @@ export default function HomePage() {
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
-  const [pagina, setPagina] = useState(0);
+  const paginaRef = useRef(0);
   const [hayMas, setHayMas] = useState(false);
   const [busqueda, setBusqueda] = useState("");
   const [buscandoInput, setBuscandoInput] = useState("");
@@ -31,13 +31,15 @@ export default function HomePage() {
   }, []);
 
   // Cargar notas cuando cambia filtro o búsqueda
+  // Usamos useRef para pagina para evitar que el cambio de página
+  // recree cargarNotas y dispare el useEffect de filtros en cascada.
   const cargarNotas = useCallback(
     async (reset = true) => {
-      const paginaActual = reset ? 0 : pagina + 1;
+      const paginaActual = reset ? 0 : paginaRef.current + 1;
 
       if (reset) {
         setLoading(true);
-        setPagina(0);
+        paginaRef.current = 0;
       } else {
         setLoadingMore(true);
       }
@@ -52,18 +54,17 @@ export default function HomePage() {
       setTotal(totalNuevo);
       setNotas((prev) => (reset ? nuevas : [...prev, ...nuevas]));
       setHayMas((paginaActual + 1) * POR_PAGINA < totalNuevo);
-      if (!reset) setPagina(paginaActual);
+      if (!reset) paginaRef.current = paginaActual;
 
       setLoading(false);
       setLoadingMore(false);
     },
-    [categoriaActiva, busqueda, pagina]
+    [categoriaActiva, busqueda]
   );
 
   useEffect(() => {
     cargarNotas(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categoriaActiva, busqueda]);
+  }, [categoriaActiva, busqueda, cargarNotas]);
 
   // Debounce del buscador
   useEffect(() => {
@@ -73,8 +74,13 @@ export default function HomePage() {
     return () => clearTimeout(timer);
   }, [buscandoInput]);
 
-  // Separación del Informe Central (solo en la primera página y si no hay filtro de búsqueda activo)
-  const mostrarDestacado = pagina === 0 && notas.length > 0;
+  // Separación del Informe Central:
+  // solo en la primera página, sin búsqueda activa y sin filtro de categoría
+  const mostrarDestacado =
+    paginaRef.current === 0 &&
+    notas.length > 0 &&
+    !busqueda &&
+    categoriaActiva === "Todas";
   const notaPrincipal = mostrarDestacado ? notas[0] : null;
   const notasSecundarias = mostrarDestacado ? notas.slice(1) : notas;
 

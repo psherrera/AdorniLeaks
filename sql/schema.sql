@@ -25,7 +25,11 @@ CREATE TABLE IF NOT EXISTS notas (
     fecha_publicacion   TIMESTAMPTZ,                     -- Fecha de publicación en la fuente original
     fecha_indexacion    TIMESTAMPTZ DEFAULT now(),       -- Fecha en que el agente la procesó
     procesado_por       TEXT DEFAULT 'groq/llama-3.3-70b-versatile',
-    activo              BOOLEAN DEFAULT true             -- Para soft-delete sin borrar datos
+    activo              BOOLEAN DEFAULT true,            -- Para soft-delete sin borrar datos
+    -- Columna generada para full-text search en español (usada por el frontend via .textSearch)
+    fts                 TSVECTOR GENERATED ALWAYS AS (
+                            to_tsvector('spanish', coalesce(titulo_ia, '') || ' ' || coalesce(resumen_ia, ''))
+                        ) STORED
 );
 
 -- Índices para performance del frontend
@@ -35,9 +39,8 @@ CREATE INDEX IF NOT EXISTS idx_notas_score        ON notas (score_relevancia DES
 CREATE INDEX IF NOT EXISTS idx_notas_activo       ON notas (activo);
 CREATE INDEX IF NOT EXISTS idx_notas_slug         ON notas (slug);
 
--- Full-text search en español (para el buscador del frontend)
-CREATE INDEX IF NOT EXISTS idx_notas_fts ON notas
-    USING GIN (to_tsvector('spanish', coalesce(titulo_ia, '') || ' ' || coalesce(resumen_ia, '')));
+-- Full-text search en español (columna generada fts, usada por el frontend)
+CREATE INDEX IF NOT EXISTS idx_notas_fts ON notas USING GIN (fts);
 
 -- Vista pública para el frontend (solo campos necesarios, sin datos internos)
 CREATE OR REPLACE VIEW notas_publicas AS
@@ -86,5 +89,5 @@ INSERT INTO fuentes (nombre, url_rss) VALUES
     ('TN',              'https://tn.com.ar/rss/politica.xml'),
     ('Ámbito',          'https://www.ambito.com/rss/pages/economia.xml'),
     ('El Destape',      'https://www.eldestapeweb.com/rss/'),
-    ('Télam',           'https://www.telam.com.ar/rss/politica.xml')
+    ('Perfil',          'https://www.perfil.com/feed/')   -- Reemplaza Télam (intervenida, RSS caído)
 ON CONFLICT DO NOTHING;

@@ -61,9 +61,22 @@ export async function getNotas(
   }
 
   if (busqueda && busqueda.trim()) {
-    query = query.or(
-      `titulo_ia.ilike.%${busqueda}%,resumen_ia.ilike.%${busqueda}%`
-    );
+    // Sanitizar: escapar caracteres especiales de tsquery y usar full-text search
+    // aprovechando el índice GIN en español que ya existe en la BD.
+    const termino = busqueda
+      .trim()
+      .replace(/[^a-zA-ZÀ-ɏ0-9\s]/g, " ") // remover caracteres especiales
+      .split(/\s+/)
+      .filter(Boolean)
+      .join(" & "); // operador AND de tsquery
+
+    if (termino) {
+      query = query.textSearch(
+        "fts",
+        termino,
+        { config: "spanish", type: "websearch" }
+      );
+    }
   }
 
   const { data, count, error } = await query;
@@ -91,6 +104,8 @@ export async function getStats(): Promise<{
   total: number;
   porCategoria: Record<string, number>;
 }> {
+  // Solo descargamos la columna categoria (no todas las columnas)
+  // para minimizar el payload y evitar cargar filas completas.
   const { data, error } = await supabase
     .from("notas_publicas")
     .select("categoria");
@@ -99,7 +114,7 @@ export async function getStats(): Promise<{
 
   const porCategoria: Record<string, number> = {};
   for (const row of data) {
-    const cat = row.categoria || "Sin Categoría";
+    const cat = (row.categoria as string) || "Sin Categoría";
     porCategoria[cat] = (porCategoria[cat] || 0) + 1;
   }
 
