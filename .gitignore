@@ -1,0 +1,46 @@
+# ============================================================
+# AdorniLeaks — .gitignore global
+# ============================================================
+
+# Variables de entorno (NUNCA subir a Git)
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+
+# Logs del agente
+agent/logs/*.log
+
+# Next.js
+frontend/.next/
+frontend/out/
+frontend/node_modules/
+frontend/.vercel/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDEs
+.vscode/settings.json
+.idea/
+*.swp
+*.swo

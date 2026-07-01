@@ -1,0 +1,10 @@
+# Dependencias del agente AdorniLeaks
+feedparser==6.0.11          # Lectura de feeds RSS
+trafilatura==1.12.2          # Extracción de texto limpio de webs (mejor que newspaper3k)
+groq==0.11.0                 # Cliente oficial Groq (Llama 3.3 70B gratis)
+supabase==2.9.1              # Cliente Supabase para Python
+python-dotenv==1.0.1         # Variables de entorno desde .env
+tenacity==9.0.0              # Reintentos con backoff exponencial
+httpx==0.27.2                # HTTP client async-compatible
+python-slugify==8.0.4        # Generación de slugs para URLs
+loguru==0.7.2                # Logging elegante
