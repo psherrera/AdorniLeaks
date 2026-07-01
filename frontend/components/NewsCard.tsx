@@ -38,7 +38,6 @@ function formatDate(dateStr: string): string {
 
 function truncateSummary(text: string, maxChars: number = 200): string {
   if (!text) return "";
-  // Tomar solo el primer párrafo
   const firstParagraph = text.split("\n")[0];
   if (firstParagraph.length <= maxChars) return firstParagraph;
   return firstParagraph.substring(0, maxChars).trimEnd() + "…";
@@ -57,13 +56,14 @@ export default function NewsCard({ nota, index = 0 }: NewsCardProps) {
   const isHighScore = nota.score_relevancia >= 9;
 
   return (
-    <Link
-      href={`/${nota.slug}`}
+    // Abre directamente la nota original en nueva pestaña
+    <a
+      href={nota.url}
       id={`card-${nota.id}`}
       className="news-card animate-in"
-      style={{
-        animationDelay: `${Math.min(index * 50, 400)}ms`,
-      }}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{ animationDelay: `${Math.min(index * 50, 400)}ms` }}
     >
       {/* Header: badges + score */}
       <div className="card-header">
@@ -87,20 +87,16 @@ export default function NewsCard({ nota, index = 0 }: NewsCardProps) {
       {/* Resumen (primer párrafo) */}
       <p className="card-summary">{truncateSummary(nota.resumen_ia)}</p>
 
-      {/* Footer: fecha + tags */}
+      {/* Footer: fecha + fuente */}
       <div className="card-footer">
         <span className="card-date">
           📅 {nota.fecha_publicacion ? formatDate(nota.fecha_publicacion) : "Sin fecha"}
         </span>
-        <div className="card-tags">
-          {(nota.tags || []).slice(0, 2).map((tag) => (
-            <span key={tag} className="tag-chip">
-              {tag}
-            </span>
-          ))}
-        </div>
+        <span className="card-source-hint">
+          ↗ {nota.fuente}
+        </span>
       </div>
-    </Link>
+    </a>
   );
 }
 

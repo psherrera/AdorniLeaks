@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import Header from "@/components/Header";
 import NewsCard, { NewsCardSkeleton } from "@/components/NewsCard";
 import CategoryFilter from "@/components/CategoryFilter";
+import Hitos from "@/components/Hitos";
 import { getNotas, getStats, type Nota } from "@/lib/supabase";
 
 const POR_PAGINA = 12;
@@ -190,6 +191,11 @@ export default function HomePage() {
               )}
             </>
           )}
+        </div>
+
+        {/* Hitos del archivo */}
+        <div className="container">
+          <Hitos />
         </div>
       </main>
 

@@ -435,6 +435,13 @@ img {
   flex-wrap: wrap;
 }
 
+.card-source-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-left: auto;
+}
+
 .tag-chip {
   font-size: 0.67rem;
   padding: 2px 7px;
@@ -668,6 +675,137 @@ img {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+}
+
+/* ── Hitos Section ───────────────────────────────────────── */
+.hitos-section {
+  padding: 1rem 0 3rem;
+  border-top: 1px solid var(--border);
+  margin-top: 1rem;
+}
+
+.hitos-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.hitos-title {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.4rem;
+}
+
+.hitos-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.hitos-año-grupo {
+  margin-bottom: 2.5rem;
+}
+
+.hitos-año-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--red-bright);
+  background: var(--red-dim);
+  border: 1px solid var(--border-accent);
+  display: inline-flex;
+  padding: 3px 12px;
+  border-radius: 100px;
+  margin-bottom: 1rem;
+}
+
+.hitos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1rem;
+}
+
+.hito-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.hito-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--red), transparent);
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.hito-card:hover {
+  background: var(--bg-card-hover);
+  border-color: rgba(255,255,255,0.12);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+.hito-card:hover::before {
+  opacity: 1;
+}
+
+.hito-alto {
+  border-color: rgba(220, 38, 38, 0.2);
+}
+
+.hito-emoji {
+  font-size: 1.75rem;
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.hito-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.hito-titulo {
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+.hito-desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.hito-arrow {
+  font-size: 1rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: color var(--transition);
+}
+
+.hito-card:hover .hito-arrow {
+  color: var(--red-bright);
 }
 
 /* ── Footer ───────────────────────────────────────────────── */
