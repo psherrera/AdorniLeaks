@@ -61,14 +61,59 @@ html { scroll-behavior: smooth; }
 
 body {
   background-color: var(--bg-deep);
-  /* Fondo estilo panal de abeja de CQC mediante SVG repetido sutil */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='96' viewBox='0 0 56 96'%3E%3Cpath d='M28 96 L0 80 L0 48 L28 32 L56 48 L56 80 Z M0 48 L28 32 L56 48 M28 32 L28 0 M0 0 L28 16 L56 0 M0 80 L0 96 M56 80 L56 96' fill='none' stroke='%2300ff66' stroke-opacity='0.035' stroke-width='1'/%3E%3C/svg%3E");
   color: var(--text-primary);
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Capa 1: Foco de luz verde/cian en movimiento lento detrás del panal */
+body::before {
+  content: "";
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at center,
+    rgba(0, 255, 102, 0.07) 0%,
+    rgba(0, 229, 255, 0.02) 25%,
+    transparent 55%
+  );
+  pointer-events: none;
+  z-index: -2;
+  animation: spotlight 22s infinite alternate ease-in-out;
+}
+
+/* Capa 2: Enrejado regular de panal de abeja (sin deformaciones) que se ilumina con el paso de la luz */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='104' viewBox='0 0 60 104'%3E%3Cpath d='M30 104 L0 87 L0 52 L30 35 L60 52 L60 87 Z M0 52 L30 35 L60 52 M30 35 L30 0 M0 0 L30 17 L60 0 M0 87 L0 104 M60 87 L60 104' fill='none' stroke='%2300ff66' stroke-opacity='0.035' stroke-width='1.2'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes spotlight {
+  0% {
+    transform: translate(-15%, -15%);
+  }
+  50% {
+    transform: translate(10%, 5%);
+  }
+  100% {
+    transform: translate(-5%, 15%);
+  }
 }
 
 ::selection {
