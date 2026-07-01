@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
+import Link from "next/link";
 import Header from "@/components/Header";
 import NewsCard, { NewsCardSkeleton } from "@/components/NewsCard";
 import CategoryFilter from "@/components/CategoryFilter";
@@ -248,7 +249,7 @@ export default function HomePage() {
         </div>
       </main>
 
-      <footer className="footer">
+      <footer className="footer" style={{ paddingBottom: "calc(64px + 1.5rem)" }}>
         <div className="container">
           <p>
             <strong>AdorniLeaks</strong> — Archivo no oficial de contralor periodístico.
@@ -276,6 +277,22 @@ export default function HomePage() {
           </p>
         </div>
       </footer>
+
+      {/* Barra de navegación inferior (solo mobile) */}
+      <nav className="mobile-bottom-nav" aria-label="Navegación principal mobile">
+        <Link href="/" className="mobile-bottom-nav-item" id="mobile-nav-home">
+          <span className="mobile-bottom-nav-icon">🗃️</span>
+          <span>Archivo</span>
+        </Link>
+        <Link href="/especial" className="mobile-bottom-nav-item" id="mobile-nav-especial">
+          <span className="mobile-bottom-nav-icon">📺</span>
+          <span>El Ciclo</span>
+        </Link>
+        <Link href="/archivo" className="mobile-bottom-nav-item" id="mobile-nav-clasificado">
+          <span className="mobile-bottom-nav-icon">🔍</span>
+          <span>Clasificado</span>
+        </Link>
+      </nav>
     </>
   );
 }
