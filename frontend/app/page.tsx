@@ -7,7 +7,7 @@ import CategoryFilter from "@/components/CategoryFilter";
 import Hitos from "@/components/Hitos";
 import { getNotas, getStats, type Nota } from "@/lib/supabase";
 
-const POR_PAGINA = 12;
+const POR_PAGINA = 13; // 1 destacado + 12 secundarios en la primera página
 
 export default function HomePage() {
   const [notas, setNotas] = useState<Nota[]>([]);
@@ -72,30 +72,33 @@ export default function HomePage() {
     return () => clearTimeout(timer);
   }, [buscandoInput]);
 
+  // Separación del Informe Central (solo en la primera página y si no hay filtro de búsqueda activo)
+  const mostrarDestacado = pagina === 0 && notas.length > 0;
+  const notaPrincipal = mostrarDestacado ? notas[0] : null;
+  const notasSecundarias = mostrarDestacado ? notas.slice(1) : notas;
+
   return (
     <>
       <Header totalNotas={stats.total} />
 
       <main>
-        {/* Hero */}
+        {/* Hero CQC */}
         <section className="hero">
           <div className="container">
             <div className="hero-eyebrow">
-              <span>🔴</span> Archivo en vivo — actualización diaria automática
+              <span>⚡</span> CONTRALOR DE LA VERDAD OFICIAL
             </div>
 
             <h1 className="hero-title">
-              Todo lo que <span>Adorni</span> dijo,<br />
-              hizo y preferiría olvidar.
+              CAIGA QUIEN <span>CAIGA</span>
             </h1>
 
             <p className="hero-subtitle">
-              Archivo periodístico independiente sobre Manuel Adorni, vocero 
-              presidencial de Argentina. Conferencias, causas judiciales, 
-              desaires y contradicciones. Curado con IA, para que no lo olvidemos.
+              El archivo implacable del paso de Manuel Adorni por el gobierno.
+              Dichos, contradicciones y expedientes bajo lupa.
             </p>
 
-            {/* Buscador */}
+            {/* Buscador CQC */}
             <div className="search-bar">
               <svg
                 className="search-icon"
@@ -115,7 +118,7 @@ export default function HomePage() {
                 id="search-input"
                 type="search"
                 className="search-input"
-                placeholder="Buscá por tema, dicho o fecha…"
+                placeholder="BUSCAR CRÓNICA O EXPEDIENTE..."
                 value={buscandoInput}
                 onChange={(e) => setBuscandoInput(e.target.value)}
                 aria-label="Buscar notas en el archivo"
@@ -124,7 +127,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Filtros */}
+        {/* Filtros CQC */}
         <div className="container">
           <CategoryFilter
             selected={categoriaActiva}
@@ -139,18 +142,22 @@ export default function HomePage() {
           {busqueda && !loading && (
             <p
               style={{
-                fontSize: "0.85rem",
-                color: "var(--text-muted)",
-                marginBottom: "1.25rem",
+                fontSize: "0.75rem",
+                color: "var(--green)",
+                textTransform: "uppercase",
+                fontFamily: "var(--font-display)",
+                fontWeight: 700,
+                marginBottom: "1.5rem",
+                letterSpacing: "0.05em",
               }}
             >
               {total > 0
-                ? `${total} resultado${total !== 1 ? "s" : ""} para "${busqueda}"`
+                ? `${total} crónica${total !== 1 ? "s" : ""} encontrada${total !== 1 ? "s" : ""} para "${busqueda}"`
                 : `Sin resultados para "${busqueda}"`}
             </p>
           )}
 
-          {/* Grid */}
+          {/* Grid o Contenido */}
           {loading ? (
             <div className="news-grid">
               {Array.from({ length: 6 }).map((_, i) => (
@@ -160,32 +167,62 @@ export default function HomePage() {
           ) : notas.length === 0 ? (
             <div className="empty-state">
               <div className="empty-state-icon">🗃️</div>
-              <h3>El archivo está vacío por ahora</h3>
-              <p style={{ fontSize: "0.85rem", marginTop: "0.5rem" }}>
+              <h3>Archivo despejado</h3>
+              <p style={{ fontSize: "0.8rem", marginTop: "0.5rem", color: "var(--text-muted)" }}>
                 {busqueda
-                  ? "Probá con otra búsqueda."
-                  : "El agente aún no indexó notas en esta categoría."}
+                  ? "Probá con otros términos de búsqueda."
+                  : "No se encontraron crónicas en esta sección."}
               </p>
             </div>
           ) : (
             <>
+              {/* INFORME CENTRAL */}
+              {notaPrincipal && (
+                <a
+                  href={notaPrincipal.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="informe-central"
+                  id={`card-featured-${notaPrincipal.id}`}
+                >
+                  <span className="informe-label">Informe Central</span>
+                  <h2 className="informe-titulo">{notaPrincipal.titulo_ia}</h2>
+                  <p className="informe-resumen">
+                    {notaPrincipal.resumen_ia ? notaPrincipal.resumen_ia.split("\n")[0] : ""}
+                  </p>
+                  <div className="informe-meta">
+                    <span>📅 {new Date(notaPrincipal.fecha_publicacion).toLocaleDateString("es-AR")}</span>
+                    <span>•</span>
+                    <span className="informe-cat">{notaPrincipal.categoria}</span>
+                    <span>•</span>
+                    <span>{notaPrincipal.fuente}</span>
+                    <span className="informe-leer">Leer Informe Completo ↗</span>
+                  </div>
+                </a>
+              )}
+
+              {/* CRÓNICAS INDEXADAS (GRID SECUNDARIO) */}
+              <div className="section-header">
+                <span className="section-label">Crónicas Indexadas</span>
+                <span className="section-count">{notasSecundarias.length} notas exhibidas</span>
+              </div>
+
               <div className="news-grid">
-                {notas.map((nota, i) => (
+                {notasSecundarias.map((nota, i) => (
                   <NewsCard key={nota.id} nota={nota} index={i} />
                 ))}
               </div>
 
               {/* Cargar más */}
               {hayMas && (
-                <div style={{ textAlign: "center", padding: "2rem 0" }}>
+                <div style={{ textAlign: "center", padding: "3rem 0" }}>
                   <button
                     id="load-more-btn"
-                    className="filter-btn"
-                    style={{ padding: "0.7rem 2rem", fontSize: "0.9rem" }}
+                    className="load-more-btn"
                     onClick={() => cargarNotas(false)}
                     disabled={loadingMore}
                   >
-                    {loadingMore ? "Cargando…" : `Ver más notas`}
+                    {loadingMore ? "Solicitando..." : "Desplegar Más Crónicas"}
                   </button>
                 </div>
               )}
@@ -202,20 +239,19 @@ export default function HomePage() {
       <footer className="footer">
         <div className="container">
           <p>
-            <strong>AdorniLeaks</strong> — Archivo periodístico independiente.
+            <strong>AdorniLeaks</strong> — Archivo no oficial de contralor periodístico.
           </p>
           <p>
-            Contenido curado automáticamente con IA (Groq/Llama 3.3) desde medios 
-            argentinos públicos.
+            Contenido filtrado, evaluado y redactado mediante IA bajo supervisión de código abierto.
           </p>
           <p>
-            Todo el crédito a los medios originales.{" "}
+            Todos los derechos reservados a los respectivos cronistas originales.{" "}
             <a
-              href="https://github.com/tu-usuario/adorni-leaks"
+              href="https://github.com/psherrera/AdorniLeaks"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Ver código fuente
+              Ver Repositorio
             </a>
           </p>
         </div>
