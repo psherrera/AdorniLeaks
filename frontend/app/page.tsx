@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import NewsCard, { NewsCardSkeleton } from "@/components/NewsCard";
 import CategoryFilter from "@/components/CategoryFilter";
 import Hitos from "@/components/Hitos";
+import LineaTiempo from "@/components/LineaTiempo";
 import { getNotas, getStats, type Nota } from "@/lib/supabase";
 
 const POR_PAGINA = 13; // 1 destacado + 12 secundarios en la primera página
@@ -233,6 +234,11 @@ export default function HomePage() {
         {/* Hitos del archivo */}
         <div className="container">
           <Hitos />
+        </div>
+
+        {/* Trayectoria y Línea de Tiempo */}
+        <div className="container">
+          <LineaTiempo />
         </div>
       </main>
 
