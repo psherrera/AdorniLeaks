@@ -10,3 +10,5 @@ python-slugify==8.0.4        # Generación de slugs para URLs
 loguru==0.7.2                # Logging elegante
 yt-dlp==2025.1.15            # Descarga de metadatos y búsqueda de videos de YouTube
 youtube-transcript-api==0.6.2 # Extracción de transcripciones de YouTube
+duckduckgo-search==6.2.4     # Búsqueda automatizada en la web para encontrar notas de archivo
+

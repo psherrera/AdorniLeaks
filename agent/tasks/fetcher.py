@@ -1,12 +1,13 @@
 """
 AdorniLeaks — Task 1: Fetcher (Extractor de Contenido Histórico)
-Modificado para buscar compilados en YouTube y hacer scraping de notas de archivo (periodo dic 2023 - jun 2026).
+Modificado para buscar compilados en YouTube, raspar portales de archivo y realizar búsquedas web en DuckDuckGo.
 """
 
 import httpx
 import trafilatura
 import yt_dlp
 from youtube_transcript_api import YouTubeTranscriptApi
+from duckduckgo_search import DDGS
 from datetime import datetime, timezone
 from loguru import logger
 from slugify import slugify
@@ -26,6 +27,15 @@ PORTAL_URLS = [
     "https://www.lanacion.com.ar/politica/la-empleada-de-la-casa-rosada-que-le-presto-su-tarjeta-a-adorni-declaro-que-el-tambien-intento-nid30062026/",
     "https://www.lanacion.com.ar/politica/the-wall-street-journal-publico-una-nota-que-analiza-el-caso-adorni-y-advierte-que-trump-podria-nid30062026/",
     "https://www.lanacion.com.ar/politica/figura-devaluada-solo-posse-duro-menos-que-adorni-y-milei-ya-es-el-presidente-que-mas-jefes-de-nid30062026/"
+]
+
+# Búsquedas automáticas en la web para hallar notas del pasado
+WEB_SEARCH_QUERIES = [
+    "Manuel Adorni tarjeta de credito empleada site:lanacion.com.ar",
+    "Manuel Adorni enriquecimiento ilicito Lijo site:lanacion.com.ar",
+    "Manuel Adorni YPF directorio sueldo site:clarin.com",
+    "Manuel Adorni ahorros en negro site:pagina12.com.ar",
+    "Manuel Adorni despidos obra publica site:eldestapeweb.com"
 ]
 
 # Archivo de Fallback precargado con eventos reales e irónicos del Ciclo Adorni
@@ -156,16 +166,33 @@ def fetch_youtube_transcript(video_id: str) -> str | None:
         return None
 
 
+def buscar_urls_en_web(query: str, max_results: int = 2) -> list[str]:
+    """Busca en DuckDuckGo y devuelve las URLs coincidentes."""
+    logger.info(f"🔍 Buscando notas antiguas en la web con query: '{query}'")
+    urls = []
+    try:
+        with DDGS() as ddgs:
+            results = ddgs.text(query, max_results=max_results)
+            if results:
+                for r in results:
+                    if r.get("href"):
+                        urls.append(r["href"])
+    except Exception as e:
+        logger.warning(f"Error en búsqueda web DuckDuckGo para '{query}': {e}")
+    return urls
+
+
 def fetch_articulos(urls_ya_procesadas: set[str]) -> list[dict]:
     """
     Orquesta la recolección de contenido histórico combinando:
     1. Scraping en vivo de portales clave de archivo.
     2. Transcripciones de YouTube sobre conferencias/renuncia.
-    3. Archivo pre-seeded de fallback para garantizar calidad.
+    3. Búsqueda automatizada en la web (DuckDuckGo) para descubrir nuevas notas antiguas.
+    4. Archivo pre-seeded de fallback para garantizar calidad.
     """
     articulos_recuperados = []
     
-    # ── 1. Proceso de Portales Periodísticos ──
+    # ── 1. Proceso de Portales Periodísticos (URLs estáticas) ──
     logger.info("📡 Iniciando scraping de portales periodísticos de archivo...")
     for url in PORTAL_URLS:
         if url in urls_ya_procesadas:
@@ -198,7 +225,6 @@ def fetch_articulos(urls_ya_procesadas: set[str]) -> list[dict]:
             transcript = fetch_youtube_transcript(video["id"])
             if transcript:
                 logger.success(f"  ✅ Transcripción obtenida para: '{video['titulo'][:50]}...'")
-                # Combinar descripción y transcripción para más riqueza informativa
                 texto_final = f"DETALLES VIDEO: {video['description']}\n\nTRANSCRIPCIÓN:\n{transcript}"
                 articulos_recuperados.append({
                     "url": url,
@@ -210,9 +236,43 @@ def fetch_articulos(urls_ya_procesadas: set[str]) -> list[dict]:
                 })
                 urls_ya_procesadas.add(url)
 
-    # ── 3. Fallback de Calidad / Pre-seeded ──
-    # Si no pudimos raspar nada nuevo del exterior debido a proxies o APIs, usamos el archivo fallback.
-    # Así aseguramos la presencia de los hitos del especial CQC.
+    # ── 3. Búsqueda Automatizada en la Web (DuckDuckGo) ──
+    logger.info("📡 Iniciando búsqueda web para descubrir más notas antiguas...")
+    for query in WEB_SEARCH_QUERIES:
+        urls_encontradas = buscar_urls_en_web(query, max_results=2)
+        for url in urls_encontradas:
+            if url in urls_ya_procesadas:
+                continue
+                
+            texto = _extraer_texto(url)
+            if texto:
+                # Deducir la fuente basándose en la URL
+                fuente = "Prensa"
+                if "lanacion" in url:
+                      fuente = "La Nación"
+                elif "clarin" in url:
+                      fuente = "Clarín"
+                elif "pagina12" in url:
+                      fuente = "Página 12"
+                elif "eldestapeweb" in url:
+                      fuente = "El Destape"
+                
+                titulo = url.split("/")[-2].replace("-", " ").capitalize() if "/" in url else ""
+                if not titulo or len(titulo) < 5:
+                    titulo = f"Nota de archivo de {fuente}"
+                    
+                logger.success(f"  ✅ Raspado exitoso desde búsqueda web: '{titulo[:50]}...'")
+                articulos_recuperados.append({
+                    "url": url,
+                    "titulo": titulo,
+                    "texto": texto,
+                    "fuente": fuente,
+                    "fecha_publicacion": datetime.now(tz=timezone.utc).isoformat(),
+                    "slug": slugify(titulo[:60])
+                })
+                urls_ya_procesadas.add(url)
+
+    # ── 4. Fallback de Calidad / Pre-seeded ──
     logger.info("📡 Procesando archivo pre-seeded de fallback para el especial CQC...")
     for item in HISTORICAL_ARCHIVE_FALLBACK:
         url = item["url"]
