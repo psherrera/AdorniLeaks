@@ -25,6 +25,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: nota.titulo_ia,
       description: descripcion,
       publishedTime: nota.fecha_publicacion,
+      images: [
+        {
+          url: "https://adorni-leaks.vercel.app/og-image.png",
+          width: 1200,
+          height: 630,
+          alt: nota.titulo_ia,
+        },
+      ],
     },
   };
 }
