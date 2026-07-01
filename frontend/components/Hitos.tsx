@@ -81,12 +81,102 @@ const HITOS: Hito[] = [
   // ── 2023 ──────────────────────────────────────────────
   {
     año: 2023,
-    titulo: 'De vocero de campaña a vocero presidencial: el ascenso de "el portavoz"',
+    titulo: "Asume como Vocero Presidencial",
     descripcion:
-      "Manuel Adorni era prácticamente desconocido antes de la campaña de Milei. Economista liberal, se convirtió en la cara visible de la comunicación del candidato y luego del gobierno. Su estilo confrontativo y sus conferencias de prensa diarias lo hicieron famoso — y polémico.",
+      "En diciembre de 2023 es confirmado como vocero de Javier Milei. Las notas y crónicas lo ubican de inmediato como la cara cotidiana del gobierno frente a la prensa nacional e internacional.",
+    url: "https://www.lanacion.com.ar/",
+    categoria: "Gobierno",
+    emoji: "🤝",
+    impacto: "medio",
+  },
+  {
+    año: 2023,
+    titulo: "Debut en el Salón Héroes de Malvinas",
+    descripcion:
+      "Realiza su primera conferencia oficial fijando las pautas de las vocerías diarias. Se instala un estilo directo, respuestas cortas y guiños constantes a su perfil de tuitero político.",
     url: "https://www.infobae.com/",
     categoria: "Gobierno",
-    emoji: "📢",
+    emoji: "🎙️",
+    impacto: "medio",
+  },
+  {
+    año: 2023,
+    titulo: "Anuncio de seguros falsos en Olivos (Falsa alarma)",
+    descripcion:
+      "Denuncia seguros millonarios de 2,6M USD por cuadros en la Quinta de Olivos. Se demuestra que los cuadros no estaban, que el monto era en pesos y no figuraba en el presupuesto; calificado por Revista Noticias como un primer gran traspié.",
+    url: "https://noticias.perfil.com/",
+    categoria: "Dichos Polémicos",
+    emoji: "🖼️",
+    impacto: "alto",
+  },
+  {
+    año: 2023,
+    titulo: "Instalación de su marca: el nacimiento del 'Fin.'",
+    descripcion:
+      "Lleva expresiones características de su cuenta de X como 'Argentina, un país.' y los cierres tajantes con 'Fin.' directamente al discurso institucional de la Casa Rosada.",
+    url: "https://www.lanacion.com.ar/",
+    categoria: "Gobierno",
+    emoji: "📱",
+    impacto: "medio",
+  },
+  {
+    año: 2023,
+    titulo: "El paso de opinador externo a funcionario público",
+    descripcion:
+      "Las coberturas políticas marcan la contradicción de su carrera: pasa de ser un economista y comentarista que ataca al Estado y a 'la casta' a convertirse en una de las voces pagadas por el Estado nacional.",
+    url: "https://www.pagina12.com.ar/",
+    categoria: "Gobierno",
+    emoji: "🔄",
+    impacto: "medio",
+  },
+  {
+    año: 2023,
+    titulo: "Consolidación como referente del relato libertario",
+    descripcion:
+      "Se consolida como uno de los hombres del gabinete de mayor exposición mediática diaria, logrando un fuerte protagonismo en el debate público y ganando centralidad propia.",
+    url: "https://www.infobae.com/",
+    categoria: "Gobierno",
+    emoji: "📺",
+    impacto: "medio",
+  },
+  {
+    año: 2023,
+    titulo: "Traslado del tono confrontativo de redes al atril",
+    descripcion:
+      "Comienza a emplear términos despectivos hacia sectores opositores en conferencias oficiales. Medios como Perfil recopilan estas agresiones institucionales y la falta de filtros en el rol público.",
+    url: "https://www.perfil.com/",
+    categoria: "Dichos Polémicos",
+    emoji: "⚡",
+    impacto: "alto",
+  },
+  {
+    año: 2023,
+    titulo: "Primeros cruces y evasión de preguntas",
+    descripcion:
+      "A fines de 2023 descalifica e ironiza frente a las preguntas incómodas de los cronistas acreditados, asentando una lógica de discusión del encuadre más que del contenido de las políticas públicas.",
+    url: "https://www.pagina12.com.ar/",
+    categoria: "Desaires",
+    emoji: "🗣️",
+    impacto: "alto",
+  },
+  {
+    año: 2023,
+    titulo: "Construcción de la narrativa oficial y la polarización",
+    descripcion:
+      "Su rol se revela como parte de la estrategia oficial para solidificar conceptos como el 'orden', el 'ajuste inevitable' y la polarización necesaria frente a cualquier disidencia política.",
+    url: "https://www.ambito.com/",
+    categoria: "Gobierno",
+    emoji: "🧱",
+    impacto: "medio",
+  },
+  {
+    año: 2023,
+    titulo: "El origen retrospectivo del ciclo",
+    descripcion:
+      "En análisis periodísticos posteriores, la fecha del 10 de diciembre de 2023 se consolida como el kilómetro cero de su sumisión y posterior ascenso de poder junto a Javier Milei.",
+    url: "https://www.lanacion.com.ar/",
+    categoria: "Gobierno",
+    emoji: "🎬",
     impacto: "medio",
   },
 ];

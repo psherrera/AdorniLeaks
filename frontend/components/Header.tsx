@@ -22,6 +22,18 @@ export default function Header({ totalNotas }: HeaderProps) {
             </div>
           </Link>
 
+          {/* Enlace al Especial CQC */}
+          <nav className="header-nav" style={{ display: "flex", gap: "12px" }}>
+            <Link href="/especial" className="special-nav-link" id="nav-especial-link">
+              📺 Especial "El Ciclo"
+            </Link>
+            <Link href="/archivo" className="special-nav-link" id="nav-archivo-link">
+              🗃️ El Archivo Clasificado
+            </Link>
+          </nav>
+
+
+
           {/* Stats al estilo monitor CQC y control de música */}
           <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
             <MusicaFondo />

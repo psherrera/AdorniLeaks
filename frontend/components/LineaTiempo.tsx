@@ -30,7 +30,7 @@ const EVENTOS: EventoLinea[] = [
       "Mantiene el estilo confrontativo de sus redes sociales en los atriles de Casa Rosada."
     ],
     categoria: "gestion",
-    emoji: "📢"
+    emoji: "🎙️"
   },
   {
     fecha: "Durante 2024",
@@ -41,7 +41,7 @@ const EVENTOS: EventoLinea[] = [
       "Evita dar explicaciones sobre los perros de Milei argumentando que hablar de ellos es 'meterse con su familia'."
     ],
     categoria: "gestion",
-    emoji: "🎙️"
+    emoji: "📰"
   },
   {
     fecha: "Agosto 2024",
@@ -74,7 +74,7 @@ const EVENTOS: EventoLinea[] = [
       "Este ascenso incrementa el escrutinio de la justicia y los medios sobre su evolución patrimonial."
     ],
     categoria: "gestion",
-    emoji: "🏛️"
+    emoji: "💼"
   },
   {
     fecha: "2025 - 2026",
@@ -85,7 +85,7 @@ const EVENTOS: EventoLinea[] = [
       "El fiscal Gerardo Pollicita ordena peritajes sobre su evolución patrimonial y se indaga a su hermano Francisco Adorni."
     ],
     categoria: "caida",
-    emoji: "✈️"
+    emoji: "⚖️"
   },
   {
     fecha: "Principios 2026",
@@ -115,7 +115,7 @@ export default function LineaTiempo() {
   return (
     <section className="timeline-section" style={{ marginTop: "4rem" }}>
       <div className="hitos-header" style={{ marginBottom: "3rem" }}>
-        <h2 className="hitos-title">⏳ Trayectoria y Paradoja</h2>
+        <h2 className="hitos-title">🕒 Trayectoria y Paradoja</h2>
         <p className="hitos-subtitle">Cronología del tuitero que se convirtió en Jefatura de Gabinete</p>
       </div>
 
@@ -146,7 +146,7 @@ export default function LineaTiempo() {
 
       {/* Contradicción final */}
       <div className="contradiction-box">
-        <h3 className="contradiction-title">⚠️ Contradicción con su vida anterior</h3>
+        <h3 className="contradiction-title">⚖️ Contradicción con su vida anterior</h3>
         <p className="contradiction-desc">
           Antes de 2023, Manuel Adorni se presentaba en conferencias y redes como un "ciudadano común, 
           laburante del sector privado" que denunciaba sistemáticamente los privilegios de la clase política 
