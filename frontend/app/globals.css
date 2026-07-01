@@ -13,9 +13,9 @@
   /* ── Paleta CQC ───────────────────────── */
   --bg-deep:       #0A0A0A;
   --bg-surface:    #0f0f0f;
-  --bg-card:       #161616;
+  --bg-card:       #141414;
   --bg-card-hover: #000000;
-  --border:        #1f1f1f;
+  --border:        #222222;
   --border-accent: #00FF66;
 
   /* Acento — verde ácido mosca */
@@ -24,25 +24,26 @@
   --green-glow:    rgba(0, 255, 102, 0.18);
   --cyan:          #00E5FF;
 
-  /* Texto */
+  /* Texto - Contrastes mejorados según normas WCAG (Google) */
   --text-primary:  #FFFFFF;
-  --text-secondary:#9ca3af;
-  --text-muted:    #4b5563;
+  --text-secondary:#E5E7EB; /* Gris más claro para legibilidad óptima */
+  --text-muted:    #9CA3AF; /* Gris intermedio legible */
+  --text-dark-muted: #6B7280;
   --text-accent:   #00FF66;
 
   /* Categorías */
-  --cat-causas-color:        #a78bfa;
-  --cat-causas-bg:           rgba(124, 58, 237, 0.1);
+  --cat-causas-color:        #c084fc;
+  --cat-causas-bg:           rgba(124, 58, 237, 0.15);
   --cat-conferencias-color:  #38bdf8;
-  --cat-conferencias-bg:     rgba(8, 145, 178, 0.1);
+  --cat-conferencias-bg:     rgba(8, 145, 178, 0.15);
   --cat-desaires-color:      #00FF66;
-  --cat-desaires-bg:         rgba(0, 255, 102, 0.08);
+  --cat-desaires-bg:         rgba(0, 255, 102, 0.12);
   --cat-dichos-color:        #fbbf24;
-  --cat-dichos-bg:           rgba(217, 119, 6, 0.1);
-  --cat-gobierno-color:      #6ee7b7;
-  --cat-gobierno-bg:         rgba(5, 150, 105, 0.1);
-  --cat-sin-color:           #6b7280;
-  --cat-sin-bg:              rgba(107, 114, 128, 0.08);
+  --cat-dichos-bg:           rgba(217, 119, 6, 0.15);
+  --cat-gobierno-color:      #34d399;
+  --cat-gobierno-bg:         rgba(5, 150, 105, 0.15);
+  --cat-sin-color:           #9ca3af;
+  --cat-sin-bg:              rgba(107, 114, 128, 0.1);
 
   /* Tipografía */
   --font-display: "Montserrat", system-ui, sans-serif;
@@ -60,10 +61,12 @@ html { scroll-behavior: smooth; }
 
 body {
   background-color: var(--bg-deep);
+  /* Fondo estilo panal de abeja de CQC mediante SVG repetido sutil */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='96' viewBox='0 0 56 96'%3E%3Cpath d='M28 96 L0 80 L0 48 L28 32 L56 48 L56 80 Z M0 48 L28 32 L56 48 M28 32 L28 0 M0 0 L28 16 L56 0 M0 80 L0 96 M56 80 L56 96' fill='none' stroke='%2300ff66' stroke-opacity='0.035' stroke-width='1'/%3E%3C/svg%3E");
   color: var(--text-primary);
   font-family: var(--font-body);
   font-size: 16px;
-  line-height: 1.6;
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
 }
@@ -173,8 +176,8 @@ a { color: inherit; text-decoration: none; }
 
 /* ── Mosca SVG animada ────────────────────────────────────── */
 .mosca-container {
-  width: 44px;
-  height: 44px;
+  width: 58px;
+  height: 58px;
   flex-shrink: 0;
 }
 

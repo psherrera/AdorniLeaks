@@ -90,7 +90,7 @@ export default function HomePage() {
             </div>
 
             <h1 className="hero-title">
-              CAIGA QUIEN <span>CAIGA</span>
+              ADORNI <span>LEAKS</span>
             </h1>
 
             <p className="hero-subtitle">
