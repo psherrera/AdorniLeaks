@@ -252,6 +252,14 @@ export default function HomePage() {
               rel="noopener noreferrer"
             >
               Ver Repositorio
+            </a>{" "}
+            |{" "}
+            <a
+              href="https://youtu.be/-ibOErExfKQ"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Créditos de Música de Fondo
             </a>
           </p>
         </div>

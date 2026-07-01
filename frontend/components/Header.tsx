@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import MoscaAnimada from "./MoscaAnimada";
+import MusicaFondo from "./MusicaFondo";
 
 interface HeaderProps {
   totalNotas?: number;
@@ -21,17 +22,21 @@ export default function Header({ totalNotas }: HeaderProps) {
             </div>
           </Link>
 
-          {/* Stats al estilo monitor CQC */}
-          {totalNotas !== undefined && (
-            <div className="header-right">
-              <span className="header-tag">
-                {totalNotas.toLocaleString("es-AR")} crónicas
-              </span>
-              <span className="header-status">
-                Agente IA // ONLINE
-              </span>
-            </div>
-          )}
+          {/* Stats al estilo monitor CQC y control de música */}
+          <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+            <MusicaFondo />
+            
+            {totalNotas !== undefined && (
+              <div className="header-right">
+                <span className="header-tag">
+                  {totalNotas.toLocaleString("es-AR")} crónicas
+                </span>
+                <span className="header-status">
+                  Agente IA // ONLINE
+                </span>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </header>
